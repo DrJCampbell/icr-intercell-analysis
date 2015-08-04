@@ -42,7 +42,7 @@ compare_deps_across_histologies <- function(
 	tissue2_kinome_rows <- which(rnai_muts$tissues[,tissue2] == 1)
 	
 	# plot tissue*gene hits in same tissue
-	make_box_dot_plots3_col_by_tissue(
+	make_box_dot_plots4_col_by_tissue(
 		results=as.data.frame(
 			results[results_to_plot,]
 			),
@@ -58,7 +58,7 @@ compare_deps_across_histologies <- function(
 		)
 	
 	# plot tissue*gene hits in other tissue
-	make_box_dot_plots3_col_by_tissue(
+	make_box_dot_plots4_col_by_tissue(
 		results=as.data.frame(
 			results[results_to_plot,]
 			),
@@ -127,7 +127,8 @@ sorted_genes_by_total_muts <- sort(
 	)
 
 # This is the plot of 63 genes with five or more mutants
-pdf(file=pdf_file, width=14, height=7)
+#pdf(file=pdf_file, width=14, height=7)
+pdf(file=pdf_file, width=7, height=5)
 par(oma=c(5,0,0,0), mar=c(3,4.2,1,1))
 
 barplot(
@@ -709,18 +710,12 @@ make_exprn_box_dot_plots3_col_by_tissue <- function(
 	tissue
 	){
 
-	pdf(file=filename, width=4, height=4)
+	pdf(file=filename, width=2, height=3)
 
-	par(bty="n", tcl=-0.2) # turn off boxes for plots
+	par(bty="n", tcl=-0.2, mai=c(0.75, 0.7, 0.1, 0.1)) # turn off boxes for plots
 
 	marker_gene <- strsplit(marker, "_")[[1]][1]
 	target_gene <- strsplit(target, "_")[[1]][1]
-	
-	# make a factor with three levels:
-	# 		wt,
-	#		non-recurrent mutant
-	# 		recurrent mutant
-	# use for boxplot and  stripchart x-axis
 	
 	# start by setting all cell lines to wt
 	wt_mut_grps_strings <- rep(
@@ -743,13 +738,18 @@ make_exprn_box_dot_plots3_col_by_tissue <- function(
 		zscores[wt_grp_rows,target],
 		zscores[func_mut_grp_rows,target],
 		pch="",
-		names=c("wt", "mutant"),
-		sub=paste(marker_gene, "status"),
-		ylab=paste(target_gene, "expression")
+#		sub=paste(marker_gene, "status"),
+#		ylab=paste(target_gene, "expression"),
+		names=c("wt", "mutant")
 		)
 	abline(
 		-2,0,col="red",lty=2
 		)
+
+		mtext(paste(marker_gene, "status"), 1, line=2)
+		mtext(paste(target_gene, "expression"), 2, line=2)
+
+
 	
 	# points for each tissue type
 #	j <- NULL
