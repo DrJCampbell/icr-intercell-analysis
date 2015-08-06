@@ -4419,7 +4419,7 @@ run_intercell <- function(
 			),
 		sep="\t",
 		quote=FALSE,
-		row.names=FALSE
+		row.names=TRUE
 	)
 	write.table(
 		x$all_muts,
@@ -4431,7 +4431,7 @@ run_intercell <- function(
 			),
 		sep="\t",
 		quote=FALSE,
-		row.names=FALSE
+		row.names=TRUE
 	)
 	
 	uv_results_x_combuts_in_all_histotypes <- run_univariate_tests(
@@ -4549,10 +4549,10 @@ run_intercell <- function(
 	#
 	
 	
-	# Make mini skinny boxplots for combined histotype assocs
+	# Make mini skinny boxplots for histotype assocs
 	make_mini_box_dot_plots4_col_by_tissue(
 		results=as.data.frame(
-			uv_results_x_tissues
+			uv_results_x_tissues[which(uv_results_x_tissues$mptest.p <= 0.05),]
 			),
 		zscores=zscores,
 		mutation.classes=x_tissues$mut_classes,
@@ -4570,10 +4570,10 @@ run_intercell <- function(
 		tissue_cols=legend_col
 		)
 
-
+	# Make mini skinny boxplots for driver mutations assocs in combined histotypes
 	make_mini_box_dot_plots4_col_by_tissue(
 		results=as.data.frame(
-			uv_results_x_combuts_in_all_histotypes
+			uv_results_x_combuts_in_all_histotypes[which(uv_results_x_combuts_in_all_histotypes$mptest.p <= 0.05),]
 			),
 		zscores=zscores,
 		mutation.classes=x$mut_classes,
@@ -4592,14 +4592,16 @@ run_intercell <- function(
 		)
 
 	
-	# Make mini skinny boxplots for histotype-specific assocs
+	# Make mini skinny boxplots for histotype-specific drive mutation assocs
 	tissues <- levels(as.factor(uv_results_bytissue$tissue))
+	sig_result_rows <- which(uv_results_bytissue$mptest.p <= 0.05) 
 	for(tissue in tissues){
 		results_tissue_rows <- which(uv_results_bytissue$tissue == tissue)
+		results_tissue_sig_rows <- intersect(results_tissue_rows, sig_result_rows)
 		data_tissue_rows <- which(x$tissues[,tissue] == 1)
 		make_mini_box_dot_plots4_col_by_tissue(
 			results=as.data.frame(
-				uv_results_bytissue[results_tissue_rows,]
+				uv_results_bytissue[results_tissue_sig_rows,]
 				),
 			zscores=zscores[data_tissue_rows,],
 			mutation.classes=x$mut_classes[data_tissue_rows,],
