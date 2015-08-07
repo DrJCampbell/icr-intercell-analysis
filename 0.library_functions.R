@@ -474,7 +474,8 @@ make_mini_box_dot_plots4_col_by_tissue <- function(
 	filename,
 	tissue_pretty_names,
 	tissue_actual_names,
-	tissue_cols
+	tissue_cols,
+	response_type="Z-score"
 	){
 
 	pdf(file=filename, width=2.5, height=3)
@@ -532,7 +533,7 @@ make_mini_box_dot_plots4_col_by_tissue <- function(
 				)
 			
 			mtext(paste(marker_gene, "status"), 1, line=2, cex=1.5)
-			mtext(paste(target_gene, "Z-score"), 2, line=2.2, cex=1.5)
+			mtext(paste(target_gene, response_type), 2, line=2.2, cex=1.5)
 
 #			print(summary(wt_mut_grps))
 			
@@ -555,7 +556,7 @@ make_mini_box_dot_plots4_col_by_tissue <- function(
 					points(
 						jitter(rep(1,times=length(wt_rows_by_tissue)), amount=0.33),
 						zscores[wt_rows_by_tissue,results$target[i]],
-						col=legend_col[j],
+						col=tissue_cols[j],
 						pch=19,
 						cex=1.5
 						)
@@ -565,7 +566,7 @@ make_mini_box_dot_plots4_col_by_tissue <- function(
 					points(
 						jitter(rep(2,times=length(mutant_rows_by_tissue)), amount=0.33),
 						zscores[mutant_rows_by_tissue,results$target[i]],
-						col=legend_col[j],
+						col=tissue_cols[j],
 						pch=19,
 						cex=1.5
 						)
@@ -676,7 +677,7 @@ make_box_dot_plots4_col_by_tissue <- function(
 					points(
 						jitter(rep(1,times=length(wt_rows_by_tissue)), amount=0.33),
 						zscores[wt_rows_by_tissue,results$target[i]],
-						col=legend_col[j],
+						col=tissue_cols[j],
 						pch=19
 						)
 				}
@@ -685,7 +686,7 @@ make_box_dot_plots4_col_by_tissue <- function(
 					points(
 						jitter(rep(2,times=length(mutant_rows_by_tissue)), amount=0.33),
 						zscores[mutant_rows_by_tissue,results$target[i]],
-						col=legend_col[j],
+						col=tissue_cols[j],
 						pch=19
 						)
 				}
@@ -787,7 +788,7 @@ make_box_dot_plots3_col_by_tissue <- function(
 					points(
 						jitter(rep(1,times=length(wt_rows_by_tissue)), amount=0.33),
 						zscores[wt_rows_by_tissue,results$target[i]],
-						col=legend_col[j],
+						col=tissue_cols[j],
 						pch=19
 						)
 				}
@@ -796,7 +797,7 @@ make_box_dot_plots3_col_by_tissue <- function(
 					points(
 						jitter(rep(2,times=length(mutant_rows_by_tissue)), amount=0.33),
 						zscores[mutant_rows_by_tissue,results$target[i]],
-						col=legend_col[j],
+						col=tissue_cols[j],
 						pch=19
 						)
 				}
@@ -1013,7 +1014,7 @@ make_box_dot_plots2_col_by_tissue <- function(
 				stripchart(
 					zscores_sub[,results$target[i]] ~ wt_mut_grps_sub,
 					pch=19,
-					col=legend_col[j],
+					col=tissue_cols[j],
 					vertical=TRUE,
 					add=TRUE,
 					method="jitter",
