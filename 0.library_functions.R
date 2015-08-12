@@ -4640,8 +4640,11 @@ make_cheese_pinapple_plot6 <- function(
 	output_file="test.pdf",
 	cex_adjust=1,
 	centerx=12,
-	centery=12
+	centery=12,
+	pval_colname="mptest.p"
 	){
+	
+	pval_col <- which(colnames(data) == pval_colname)
 	
 	# see if we are in pancan mode or tissue specific
 	this_tissue <- "across histoypes"
@@ -4661,8 +4664,8 @@ make_cheese_pinapple_plot6 <- function(
 	marker_name <- strsplit(marker, "_", fixed=TRUE)[[1]][1]
 	
 	# order the rows by target permutation test p-value
-	data <- data[order(data$PermutationP, decreasing=FALSE),]
-	neglogps <- -log10(data$PermutationP)
+	data <- data[order(data[,pval_col], decreasing=FALSE),]
+	neglogps <- -log10(data[,pval_col])
 	data <- cbind(data, neglogps)
 	
 	# clean up the target names
