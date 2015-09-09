@@ -4645,7 +4645,6 @@ make_cheese_pinapple_plot6 <- function(
 	){
 	
 	if(nrow(data) == 0){
-		warn("no lines in input")
 		break
 	}
 	
