@@ -4644,6 +4644,11 @@ make_cheese_pinapple_plot6 <- function(
 	pval_colname="mptest.p"
 	){
 	
+	if(nrow(data) == 0){
+		warn("no lines in input")
+		break
+	}
+	
 	pval_col <- which(colnames(data) == pval_colname)
 	
 	# see if we are in pancan mode or tissue specific
