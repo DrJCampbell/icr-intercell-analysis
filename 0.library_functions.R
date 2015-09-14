@@ -660,8 +660,9 @@ make_box_dot_plots4_col_by_tissue <- function(
 			
 			# points for each tissue type
 			j <- NULL
-			for(j in 1:length(tissue_actual_names)){
-				tissue <- tissue_actual_names[j]				
+			tissue_colnames <- colnames(tissues)
+			for(j in 1:length(tissue_colnames)){
+				tissue <- tissue_colnames[j]				
 				wt_rows_by_tissue <- which(
 					wt_mut_grps_strings == "wt" &
 					tissues[,tissue] == 1
@@ -671,13 +672,13 @@ make_box_dot_plots4_col_by_tissue <- function(
 					tissues[,tissue] == 1
 					)
 				
-				
+								
 				if(length(wt_rows_by_tissue) > 0){
 					# plot at 1
 					points(
 						jitter(rep(1,times=length(wt_rows_by_tissue)), amount=0.33),
 						zscores[wt_rows_by_tissue,results$target[i]],
-						col=tissue_cols[j],
+						col=tissue_cols[tissue],
 						pch=19
 						)
 				}
@@ -686,7 +687,7 @@ make_box_dot_plots4_col_by_tissue <- function(
 					points(
 						jitter(rep(2,times=length(mutant_rows_by_tissue)), amount=0.33),
 						zscores[mutant_rows_by_tissue,results$target[i]],
-						col=tissue_cols[j],
+						col=tissue_cols[tissue],
 						pch=19
 						)
 				}
@@ -4300,7 +4301,7 @@ run_intercell <- function(
 
 	colnames(num_cell_lines_sensitive_counts) <- c(
 		"group",
-		"number_of_cell_lines"
+		"number_of_siRNAs"
 		)
 	write.table(
 		num_cell_lines_sensitive_counts,
